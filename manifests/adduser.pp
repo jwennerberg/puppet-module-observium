@@ -4,10 +4,13 @@ define observium::adduser(
 ) {
   $username = $name
 
+  $check_query = "SELECT user_id FROM users WHERE username = \'${username}\'"
+
   exec { "adduser-${username}":
-    path    => $observium::base_path,
-    command => "adduser.php ${username} ${password} ${level}",
+    path    => '/usr/bin:/bin',
+    command => "php adduser.php ${username} ${password} ${level}",
     cwd     => $observium::base_path,
+    onlyif  => "test -z `mysql -h ${observium::mysql_host} -u ${observium::mysql_user} -p${observium::mysql_password} -P ${observium::mysql_port} -s -e \"${check_query}\" ${observium::mysql_db}`",
   }
 
 }

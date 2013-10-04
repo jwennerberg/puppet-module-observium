@@ -4,13 +4,14 @@
 #
 class observium(
   $base_path           = '/opt/observium',
-  $config_path         = '/opt/observiumconfig.php',
+  $config_path         = '/opt/observium/config.php',
   $config_mode         = '0755',
   $config_owner        = 'root',
   $config_group        = 'root',
   $communities         = ['public'],
   $devices             = undef,
   $mysql_host          = undef,
+  $mysql_port          = undef,
   $mysql_db            = undef,
   $mysql_user          = undef,
   $mysql_password      = undef,
@@ -67,8 +68,8 @@ class observium(
   }
 
   if $devices {
-    validate_hash($devices)
-    create_resources('observium::add_device', $devices)
+    validate_array($devices)
+    observium::add_device { $devices: }
   }
 
   package { 'observium_packages':

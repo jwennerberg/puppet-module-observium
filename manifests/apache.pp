@@ -11,6 +11,7 @@ class observium::apache {
     logroot            => "${observium::base_path}/logs",
     servername         => $observium::servername,
     configure_firewall => false,
+    override           => 'All',
   }
 
 }
