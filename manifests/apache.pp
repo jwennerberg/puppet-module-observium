@@ -6,7 +6,7 @@ class observium::apache {
 
   apache::vhost { 'observium':
     priority           => '10',
-    port               => '80',
+    port               => $observium::http_port,
     docroot            => "${observium::base_path}/html",
     logroot            => "${observium::base_path}/logs",
     servername         => $observium::servername,

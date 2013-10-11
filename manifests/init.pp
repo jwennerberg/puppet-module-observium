@@ -10,11 +10,12 @@ class observium(
   $config_group        = 'root',
   $communities         = ['public'],
   $devices             = undef,
+  $http_port           = '80',
   $mysql_host          = undef,
-  $mysql_port          = undef,
   $mysql_db            = undef,
   $mysql_user          = undef,
   $mysql_password      = undef,
+  $poller_threads      = '1',
   $rrd_path            = '/opt/observium/rrd',
   $rrd_mode            = '0755',
   $rrd_owner           = 'root',
@@ -141,7 +142,7 @@ class observium(
   }
 
   cron { 'poller':
-    command => "${base_path}/poller-wrapper.py 1 >> /dev/null 2>&1",
+    command => "${base_path}/poller-wrapper.py ${poller_threads} >> /dev/null 2>&1",
     user    => 'root',
     minute  => '*/5',
   }
